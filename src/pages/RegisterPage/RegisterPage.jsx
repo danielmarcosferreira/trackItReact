@@ -5,25 +5,27 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function RegisterPage() {
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [image, setImage] = useState("")
-    const [password, setPassword] = useState("")
+    const [newUser, setNewUser] = useState({email: "", password: "", name: "", image: ""})
     const navigate = useNavigate()
+
+    function handleUser (e) {
+        setNewUser({...newUser, [e.target.name]: e.target.value})
+    }
 
     function createAccount(e) {
         e.preventDefault()
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
 
-        const body = { email, name, image, password }
+        const body = { email: newUser.email, name: newUser.name, image: newUser.image, password: newUser.password }
 
         const promise = axios.post(URL, body)
         promise.then((res) => {
             console.log(res.data)
             navigate("/")
         })
-        promise.catch((err) => console.log(err.response.data))
+        promise.catch((err) => alert(err.response.data.message))
     }
+
 
     return (
         <LoginContainer>
@@ -32,10 +34,10 @@ export default function RegisterPage() {
             </Link>
 
             <Form onSubmit={createAccount}>
-                <input placeholder="email" value={email} onChange={e => setEmail(e.target.value)} type="text" required />
-                <input placeholder="password" value={password} onChange={e => setPassword(e.target.value)} type="password" required />
-                <input placeholder="name" value={name} onChange={e => setName(e.target.value)} type="text" required />
-                <input placeholder="foto" value={image} onChange={e => setImage(e.target.value)} type="text" required />
+                <input placeholder="email" name="email" value={newUser.email} onChange={handleUser} type="email" required />
+                <input placeholder="password" name="password" value={newUser.password} onChange={handleUser} type="password" required />
+                <input placeholder="name" name="name" value={newUser.name} onChange={handleUser} type="text" required />
+                <input placeholder="foto" name="image" value={newUser.image} onChange={handleUser} type="text" required />
                 <button type="submit">Cadastrar</button>
             </Form>
 

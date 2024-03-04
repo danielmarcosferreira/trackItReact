@@ -1,18 +1,42 @@
 import styled from "styled-components"
 import logo from "../../assets/images/logo.png"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axios from "axios"
 
 export default function LoginPage() {
+    const [form, setForm] = useState({ email: "", password: "" })
+    const navigate = useNavigate()
+
+    function handleForm(e) {
+        setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    function login(e) {
+        e.preventDefault()
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+
+        const body = {
+            email: form.email,
+            password: form.password
+        }
+
+        const promise = axios.post(URL, form)
+        promise.then((res) => {
+            console.log(res.data)
+            navigate("/habits")
+        })
+        promise.catch((err) => alert(err.response.data.message))
+    }
+
     return (
         <LoginContainer>
             <img src={logo} alt="logo TrackIt" />
 
-            <Form onSubmit={""}>
-                <input placeholder="email" required/>
-                <input placeholder="senha" required/>
-                <Link to={"/habits"}>
-                    <button>Entrar</button>
-                </Link>
+            <Form onSubmit={login}>
+                <input placeholder="email" name="email" onChange={handleForm} value={form.email} type="email" required />
+                <input placeholder="senha" name="password" onChange={handleForm} value={form.password} type="password" required />
+                <button type="submit">Entrar</button>
             </Form>
 
             <Link to={"/register"}>
