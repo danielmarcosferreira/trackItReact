@@ -16,11 +16,6 @@ export default function LoginPage() {
         e.preventDefault()
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
 
-        const body = {
-            email: form.email,
-            password: form.password
-        }
-
         const promise = axios.post(URL, form)
         promise.then((res) => {
             console.log(res.data)
