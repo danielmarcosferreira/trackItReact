@@ -1,12 +1,47 @@
 import styled from "styled-components"
+import { useEffect, useState } from "react"
 import NewHabit from "./NewHabit"
-import { useState } from "react"
 import HabitsList from "./HabitsList"
+import axios from "axios"
 
 
-export default function HabitsContainer() {
+export default function HabitsContainer({ token }) {
     const [toggleAdd, setToggleAdd] = useState(false)
+    const [toggleTasks, setToggleTasks] = useState(false)
     const [habitsList, setHabitsList] = useState([])
+    const [selectedDays, setSelectedDays] = useState([])
+
+    useEffect(() => {
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const promise = axios.get(URL, config)
+        promise.then((res) => {
+            setHabitsList(res.data)
+            console.log(res.data)
+        })
+        promise.catch((err) => console.log(err.response.data))
+    }, [toggleTasks])
+
+    function deleteTask (taskID) {
+        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${taskID}`
+
+        axios.delete(URL, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(() => {
+                setToggleTasks(!toggleTasks)
+                console.log("OK!!!")
+            })
+            .catch((err) => console.log(err.response.data))
+    }
 
     return (
         <MenuContainer>
@@ -15,10 +50,19 @@ export default function HabitsContainer() {
                 <div onClick={() => setToggleAdd(!toggleAdd)}>+</div>
             </AddHabits>
 
-            {toggleAdd === true ? <NewHabit habitsList={habitsList} setHabitsList={setHabitsList} /> : ""}
+            {toggleAdd === true
+                ? <NewHabit
+                    toggleTasks={toggleTasks}
+                    setToggleTasks={setToggleTasks}
+                    token={token}
+                    selectedDays={selectedDays}
+                    setSelectedDays={setSelectedDays} />
+                : ""}
 
             <HabitsTrack>
-                {habitsList.length === 0 ? <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p> : <HabitsList />}
+                {habitsList.length === 0 ?
+                    <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+                    : habitsList.map((item) => <HabitsList key={item.id} task={item} deleteTask={() => deleteTask(item.id)}/>)}
             </HabitsTrack>
         </MenuContainer>
     )

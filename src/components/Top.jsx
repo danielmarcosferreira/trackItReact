@@ -1,11 +1,13 @@
 import styled from "styled-components"
-import trackItImage from "../assets/images/TrackIt.png"
 import user from "../assets/images/user.png"
+import { Link } from "react-router-dom"
 
 export default function Top() {
     return (
         <TopContainer>
-            <h1>TrackIt</h1>
+            <Link to={"/"}>
+                <h1>TrackIt</h1>
+            </Link>
             <img src={user} alt="trackIt image" />
         </TopContainer>
     )

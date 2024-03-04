@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 
-export default function LoginPage() {
+export default function LoginPage({setToken}) {
     const [form, setForm] = useState({ email: "", password: "" })
     const navigate = useNavigate()
 
@@ -19,6 +19,7 @@ export default function LoginPage() {
         const promise = axios.post(URL, form)
         promise.then((res) => {
             console.log(res.data)
+            setToken(res.data.token)
             navigate("/habits")
         })
         promise.catch((err) => alert(err.response.data.message))

@@ -1,15 +1,23 @@
 import styled from "styled-components"
 
-export default function WeekDiv() {
+export default function WeekDiv({setDays, days}) {
+
+    function addDay (day) {
+        if (!days.includes(day)) {
+            setDays([...days, day])
+        }
+        console.log(days);
+    }
+
     return (
         <WeekDivContainer>
-            <button type="button">D</button>
-            <button type="button">S</button>
-            <button type="button">T</button>
-            <button type="button">Q</button>
-            <button type="button">Q</button>
-            <button type="button">S</button>
-            <button type="button">S</button>
+            <button type="button" onClick={() => addDay(0)}>D</button>
+            <button type="button" onClick={() => addDay(1)}>S</button>
+            <button type="button" onClick={() => addDay(2)}>T</button>
+            <button type="button" onClick={() => addDay(3)}>Q</button>
+            <button type="button" onClick={() => addDay(4)}>Q</button>
+            <button type="button" onClick={() => addDay(5)}>S</button>
+            <button type="button" onClick={() => addDay(6)}>S</button>
         </WeekDivContainer>
     )
 }

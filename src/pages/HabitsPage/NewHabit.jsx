@@ -1,32 +1,62 @@
 import styled from "styled-components"
 import WeekDiv from "./WeekDiv"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
-export default function NewHabit({ habitsList, setHabitsList }) {
-    const [form, setForm] = useState({ name: "", days: [] })
+export default function NewHabit({ token, selectedDays, setSelectedDays, toggleTasks ,setToggleTasks }) {
+    const [name, setName] = useState("")
+    const [days, setDays] = useState([])
+    // const [form, setForm] = useState({ name: "", days: [] })
+    // setForm([...form, days=selectedDays])
 
     function handleForm(e) {
         const { name, value } = e.target
-        setForm({ ...form, [name]: value })
+        // setForm({ ...form, [name]: value })
+        setName(e.target.value)
     }
 
     function addHabit(e) {
         e.preventDefault()
-        const body = {
-            
+        setDays(selectedDays)
+        
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }
+
+        const body = {
+            name,
+            days
+        }
+
+        const promise = axios.post(URL, body, config)
+        promise.then((res) => {
+            setToggleTasks(!toggleTasks)
+            setName("")
+            console.log(res.data);
+        })
+        promise.catch((err) => console.log(err.response.data))
+
     }
 
     return (
-        <NewHabitContainer>
+        <NewHabitContainer onSubmit={addHabit}>
             <div>
-                <input placeholder="nome do habito" name="name" type="text" onChange={handleForm} value={name} />
+                <input
+                    placeholder="nome do habito"
+                    name="name"
+                    type="text"
+                    onChange={handleForm}
+                    value={name} />
 
-                <WeekDiv />
+                <WeekDiv setDays={setDays} days={days}/>
             </div>
             <AddCancelButtons>
                 <button>Cancelar</button>
-                <button onClick={addHabit}>Salvar</button>
+                <button type="submit">Salvar</button>
             </AddCancelButtons>
         </NewHabitContainer>
     )
@@ -40,11 +70,9 @@ const NewHabitContainer = styled.form`
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    
+    justify-content: space-between;   
 
     input {
-        
         &:nth-child(1) {
             height: 45px;
             width: 90%;
@@ -72,7 +100,6 @@ const AddCancelButtons = styled.div`
             border-radius: 5px;
             margin: 10px;
             cursor: pointer;
-
         &:nth-child(1) {
             background-color: #FFFFFF;
             color: #52B6FF;
@@ -83,4 +110,3 @@ const AddCancelButtons = styled.div`
         }
     }
 `
-
