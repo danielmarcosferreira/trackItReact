@@ -7,10 +7,12 @@ export default function LoginPage() {
         <LoginContainer>
             <img src={logo} alt="logo TrackIt" />
 
-            <Form>
-                <input placeholder="email" />
-                <input placeholder="senha" />
-                <button>Entrar</button>
+            <Form onSubmit={""}>
+                <input placeholder="email" required/>
+                <input placeholder="senha" required/>
+                <Link to={"/habits"}>
+                    <button>Entrar</button>
+                </Link>
             </Form>
 
             <Link to={"/register"}>

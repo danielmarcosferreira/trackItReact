@@ -5,8 +5,8 @@ import user from "../assets/images/user.png"
 export default function Top() {
     return (
         <TopContainer>
-            <img src={trackItImage} alt="trackIt image"/>
-            <img src={user} alt="trackIt image"/>
+            <h1>TrackIt</h1>
+            <img src={user} alt="trackIt image" />
         </TopContainer>
     )
 }
@@ -16,11 +16,16 @@ const TopContainer = styled.div`
     background-color: #126BA5;
     display: flex;
     justify-content: space-between;
-
-    img {
-        &:nth-child(1) {
-            height: 30px;
-        }
-        
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0px 4px 4px 0px #00000026;
+    h1 {
+        font-family: "Playball", cursive;
+        font-size: 40px;
+        color: white;
     }
+    img {
+            height: 50px;
+            cursor: pointer;
+        }
 `

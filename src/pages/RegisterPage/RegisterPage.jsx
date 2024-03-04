@@ -1,16 +1,27 @@
 import styled from "styled-components"
 import logo from "../../assets/images/logo.png"
+import { Link } from "react-router-dom"
+import { useState } from "react";
 
 export default function RegisterPage() {
+    const [newUser, setNewUser] = useState({email: "", senha: "", nome: "", foto: ""})
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
+
+    function createAccount (e) {
+        e.preventDesafult()
+    }
+
     return (
         <LoginContainer>
-            <img src={logo} alt="logo TrackIt" />
+            <Link to={"/"}>
+                <img src={logo} alt="logo TrackIt" />
+            </Link>
 
-            <Form>
-                <input placeholder="email" />
-                <input placeholder="senha" />
-                <input placeholder="nome" />
-                <input placeholder="foto" />
+            <Form onSubmit={createAccount}>
+                <input placeholder="email" value={newUser.email} type="text" required/>
+                <input placeholder="senha" value={newUser.senha} type="text" required />
+                <input placeholder="nome" value={newUser.nome} type="text" required />
+                <input placeholder="foto" value={newUser.foto} type="text" required />
                 <button>Entrar</button>
             </Form>
 

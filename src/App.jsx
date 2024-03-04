@@ -12,8 +12,8 @@ function App() {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<LoginPage />}/>
-        {/* <Route path="/register" element={<RegisterPage />} /> */}
-        {/* <Route path="/" element={<HabitsPage />} /> */}
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/habits" element={<HabitsPage />} />
       </Routes>
     </BrowserRouter>
   )
