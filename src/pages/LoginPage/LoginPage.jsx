@@ -1,10 +1,10 @@
 import styled from "styled-components"
-import logo from "../../assets/images/logo.png"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
+import logo from "../../assets/images/logo.png"
 
-export default function LoginPage({setToken}) {
+export default function LoginPage({ setToken, setImage }) {
     const [form, setForm] = useState({ email: "", password: "" })
     const navigate = useNavigate()
 
@@ -18,8 +18,9 @@ export default function LoginPage({setToken}) {
 
         const promise = axios.post(URL, form)
         promise.then((res) => {
-            console.log(res.data)
+            console.log(res.data.image)
             setToken(res.data.token)
+            setImage(res.data.image)
             navigate("/habits")
         })
         promise.catch((err) => alert(err.response.data.message))

@@ -1,9 +1,7 @@
 import styled from "styled-components"
-import WeekDiv from "./WeekDiv"
 import trashCan from "../../assets/images/trashCan.png"
 
 export default function HabitsList({task, deleteTask}) {
-    console.log(task.id);
     return (
         <HabitsListContainer>
             {task.name}

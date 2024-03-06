@@ -1,12 +1,11 @@
 import styled from "styled-components"
+import { useEffect } from "react";
+import axios from "axios";
 import Footer from "../../components/Footer";
 import HabitsContainer from "./HabitsContainer";
 import Top from "../../components/Top";
-import { useEffect } from "react";
-import axios from "axios";
 
-export default function HabitsPage({token}) {
-
+export default function HabitsPage({ token, image }) {
     useEffect(() => {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
 
@@ -25,8 +24,8 @@ export default function HabitsPage({token}) {
 
     return (
         <HabitsPageContainer>
-            <Top />
-            <HabitsContainer token={token}/>
+            <Top image={image} />
+            <HabitsContainer token={token} />
             <Footer />
         </HabitsPageContainer>
     )

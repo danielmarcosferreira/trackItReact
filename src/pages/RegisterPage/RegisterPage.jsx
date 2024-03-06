@@ -1,8 +1,8 @@
 import styled from "styled-components"
-import logo from "../../assets/images/logo.png"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import axios from "axios";
+import logo from "../../assets/images/logo.png"
 
 export default function RegisterPage() {
     const [newUser, setNewUser] = useState({email: "", password: "", name: "", image: ""})
@@ -26,12 +26,9 @@ export default function RegisterPage() {
         promise.catch((err) => alert(err.response.data.message))
     }
 
-
     return (
         <LoginContainer>
-            <Link to={"/"}>
                 <img src={logo} alt="logo TrackIt" />
-            </Link>
 
             <Form onSubmit={createAccount}>
                 <input placeholder="email" name="email" value={newUser.email} onChange={handleUser} type="email" required />
@@ -41,7 +38,9 @@ export default function RegisterPage() {
                 <button type="submit">Cadastrar</button>
             </Form>
 
-            <p>Não tem conta? Cadastre-se!</p>
+            <Link to={"/"}>
+                <p>Já tem uma conta? Faça login!</p>
+            </Link>
         </LoginContainer>
     )
 };

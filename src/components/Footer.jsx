@@ -1,12 +1,34 @@
 import styled from "styled-components"
-import ellipse from "../assets/images/ellipse.png"
+import { Link } from "react-router-dom"
+import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar"
+import 'react-circular-progressbar/dist/styles.css';
+
 
 export default function Footer() {
+    const percentage = 66;
     return (
         <FooterContainer>
-            <h2>Hábitos</h2>
-            <img src={ellipse} alt="Controle do Hábito Hoje" />
-            <h2>Histórico</h2>
+            <StyledLink to={"/habits"}>
+                <h2>Hábitos</h2>
+            </StyledLink>
+            <StyledLink to={"/today"}>
+                <div>
+                    <CircularProgressbar
+                        value={percentage}
+                        label={"Background"}
+                        backgroundPadding={6}
+                        text="Hoje"
+                        styles={buildStyles({
+                            backgroundColor: "#3e98c7",
+                            textColor: "#fff",
+                            pathColor: "#fff",
+                            trailColor: "transparent"
+                        })} />
+                </div>
+            </StyledLink>
+            <StyledLink to={"/historic"}>
+                <h2>Histórico</h2>
+            </StyledLink>
         </FooterContainer>
     )
 }
@@ -30,11 +52,19 @@ const FooterContainer = styled.div`
         cursor: pointer;
     }
 
-    img {
+    div {
+        background-color: #52B6FF;
+        margin-bottom: 10px;
+        border-radius: 50%;
+        width: 90px;
+        padding: 4px;
         position: fixed;
         bottom: 0;
-        left: 40%;
-        margin-bottom: 10px;
+        left: 37%;
         cursor: pointer;
     }
+`
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
 `

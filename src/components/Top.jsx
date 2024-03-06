@@ -1,19 +1,19 @@
 import styled from "styled-components"
-import user from "../assets/images/user.png"
 import { Link } from "react-router-dom"
 
-export default function Top() {
+export default function Top({ image }) {
     return (
         <TopContainer>
-            <Link to={"/"}>
+            <StyledLink to={"/"}>
                 <h1>TrackIt</h1>
-            </Link>
-            <img src={user} alt="trackIt image" />
+            </StyledLink>
+            <img src={image} alt="trackIt image" />
         </TopContainer>
     )
 }
 
 const TopContainer = styled.div`
+    width: 100%;
     height: 70px;
     background-color: #126BA5;
     display: flex;
@@ -25,9 +25,15 @@ const TopContainer = styled.div`
         font-family: "Playball", cursive;
         font-size: 40px;
         color: white;
+        text-decoration: none;
     }
     img {
-            height: 50px;
-            cursor: pointer;
-        }
+            height: 60px;
+            width: 70px;
+            border-radius: 25px;
+    }
+`
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
 `

@@ -48,6 +48,9 @@ table {
 *{
     box-sizing: border-box;
 }
+ Link {
+	text-decoration: none;
+ }
 `
 
 export default GlobalStyle;

@@ -1,12 +1,10 @@
 import styled from "styled-components"
 
 export default function WeekDiv({setDays, days}) {
-
     function addDay (day) {
         if (!days.includes(day)) {
             setDays([...days, day])
         }
-        console.log(days);
     }
 
     return (

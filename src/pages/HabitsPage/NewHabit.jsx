@@ -1,19 +1,11 @@
 import styled from "styled-components"
-import WeekDiv from "./WeekDiv"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios"
+import WeekDiv from "./WeekDiv"
 
-export default function NewHabit({ token, selectedDays, setSelectedDays, toggleTasks ,setToggleTasks }) {
+export default function NewHabit({ token, selectedDays, toggleTasks ,setToggleTasks, toggleAdd ,setToggleAdd }) {
     const [name, setName] = useState("")
     const [days, setDays] = useState([])
-    // const [form, setForm] = useState({ name: "", days: [] })
-    // setForm([...form, days=selectedDays])
-
-    function handleForm(e) {
-        const { name, value } = e.target
-        // setForm({ ...form, [name]: value })
-        setName(e.target.value)
-    }
 
     function addHabit(e) {
         e.preventDefault()
@@ -35,11 +27,11 @@ export default function NewHabit({ token, selectedDays, setSelectedDays, toggleT
         const promise = axios.post(URL, body, config)
         promise.then((res) => {
             setToggleTasks(!toggleTasks)
+            setToggleAdd(!toggleAdd)
             setName("")
             console.log(res.data);
         })
         promise.catch((err) => console.log(err.response.data))
-
     }
 
     return (
@@ -49,7 +41,7 @@ export default function NewHabit({ token, selectedDays, setSelectedDays, toggleT
                     placeholder="nome do habito"
                     name="name"
                     type="text"
-                    onChange={handleForm}
+                    onChange={(e) => setName(e.target.value)}
                     value={name} />
 
                 <WeekDiv setDays={setDays} days={days}/>

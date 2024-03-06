@@ -1,8 +1,8 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
+import axios from "axios"
 import NewHabit from "./NewHabit"
 import HabitsList from "./HabitsList"
-import axios from "axios"
 
 
 export default function HabitsContainer({ token }) {
@@ -23,7 +23,6 @@ export default function HabitsContainer({ token }) {
         const promise = axios.get(URL, config)
         promise.then((res) => {
             setHabitsList(res.data)
-            console.log(res.data)
         })
         promise.catch((err) => console.log(err.response.data))
     }, [toggleTasks])
@@ -52,6 +51,8 @@ export default function HabitsContainer({ token }) {
 
             {toggleAdd === true
                 ? <NewHabit
+                    toggleAdd={toggleAdd}
+                    setToggleAdd={setToggleAdd}
                     toggleTasks={toggleTasks}
                     setToggleTasks={setToggleTasks}
                     token={token}
