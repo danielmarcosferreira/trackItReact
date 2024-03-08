@@ -4,9 +4,10 @@ import { useState } from "react"
 import axios from "axios"
 import logo from "../../assets/images/logo.png"
 
-export default function LoginPage({ setToken, setImage }) {
+export default function LoginPage({ setToken, setImage, setPercentage }) {
     const [form, setForm] = useState({ email: "", password: "" })
     const navigate = useNavigate()
+    setPercentage("")
 
     function handleForm(e) {
         setForm({ ...form, [e.target.name]: e.target.value })

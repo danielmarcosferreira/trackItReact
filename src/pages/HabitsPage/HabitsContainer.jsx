@@ -5,13 +5,13 @@ import NewHabit from "./NewHabit"
 import HabitsList from "./HabitsList"
 
 
-export default function HabitsContainer({ token }) {
+export default function HabitsContainer({ token, habitsList, setHabitsList, taskDone, setPercentage }) {
     const [toggleAdd, setToggleAdd] = useState(false)
     const [toggleTasks, setToggleTasks] = useState(false)
-    const [habitsList, setHabitsList] = useState([])
     const [selectedDays, setSelectedDays] = useState([])
 
     useEffect(() => {
+        setPercentage(((taskDone.length / habitsList.length) * 100).toFixed(0))
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
 
         const config = {
@@ -22,12 +22,13 @@ export default function HabitsContainer({ token }) {
 
         const promise = axios.get(URL, config)
         promise.then((res) => {
+            console.log(res.data);
             setHabitsList(res.data)
         })
         promise.catch((err) => console.log(err.response.data))
     }, [toggleTasks])
 
-    function deleteTask (taskID) {
+    function deleteTask(taskID) {
         const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${taskID}`
 
         axios.delete(URL, {
@@ -63,7 +64,7 @@ export default function HabitsContainer({ token }) {
             <HabitsTrack>
                 {habitsList.length === 0 ?
                     <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
-                    : habitsList.map((item) => <HabitsList key={item.id} task={item} deleteTask={() => deleteTask(item.id)}/>)}
+                    : habitsList.map((item) => <HabitsList key={item.id} task={item} deleteTask={() => deleteTask(item.id)} />)}
             </HabitsTrack>
         </MenuContainer>
     )

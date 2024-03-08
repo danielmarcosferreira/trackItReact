@@ -1,10 +1,9 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar"
 import 'react-circular-progressbar/dist/styles.css';
 
 
-export default function Footer({percentage}) {
+export default function FooterTodayPage() {
     return (
         <FooterContainer>
             <StyledLink to={"/habits"}>
@@ -12,17 +11,7 @@ export default function Footer({percentage}) {
             </StyledLink>
             <StyledLink to={"/today"}>
                 <div>
-                    <CircularProgressbar
-                        value={percentage}
-                        label={"Background"}
-                        backgroundPadding={6}
-                        text="Hoje"
-                        styles={buildStyles({
-                            backgroundColor: "#3e98c7",
-                            textColor: "#fff",
-                            pathColor: "#fff",
-                            trailColor: "transparent"
-                        })} />
+                    <p>Hoje</p>                 
                 </div>
             </StyledLink>
             <StyledLink to={"/historic"}>
@@ -53,14 +42,18 @@ const FooterContainer = styled.div`
 
     div {
         background-color: #52B6FF;
+        color: #FFFFFF;
+        font-size: 18px;
         margin-bottom: 10px;
         border-radius: 50%;
         width: 90px;
-        padding: 4px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: fixed;
         bottom: 0;
         left: 37%;
-        cursor: pointer;
     }
 `
 

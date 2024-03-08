@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Top from '../../components/Top'
 import Footer from '../../components/Footer'
 
-export default function HistoricPage({image}) {
+export default function HistoricPage({image, percentage}) {
     return (
         <TodayPageContainer>
             <Top image={image}/>
@@ -11,7 +11,7 @@ export default function HistoricPage({image}) {
                 <h1>Histórico</h1>
                 <h2>Em breve você poderá ver o histórico dos seus hábitos aqui!</h2>
             </ContainerHeader>
-            <Footer />
+            <Footer percentage={percentage}/>
         </TodayPageContainer>
     )
 }

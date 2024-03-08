@@ -1,19 +1,56 @@
-import React from 'react'
 import styled from "styled-components"
+import dayjs from 'dayjs'
+import { useEffect, useState } from "react"
+import axios from "axios"
 import Top from '../../components/Top'
-import Footer from '../../components/Footer'
-import TodayTasks from './TodayTasks'
+import Footer from "../../components/Footer"
+import TodayTask from "./TodayTask"
 
-export default function TodayPage({image}) {
+
+export default function TodayPage(props) {
+    const { token, image, habitsList, taskDone, setTaskDone, percentage, setPercentage, habitsToday, setHabitsToday } = props
+    const [todayList, setTodayList] = useState([])
+    const date = (dayjs().format('dddd, DD/MM'))
+    setPercentage(((taskDone.length / habitsToday.length) * 100).toFixed(0))
+
+    useEffect(() => {
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
+
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+
+        const promise = axios.get(URL, config)
+        promise.then((res) => {
+            console.log(res.data);
+            setTodayList(res.data)
+            setHabitsToday(res.data)
+        })
+        promise.catch((err) => console.log(err.response.data))
+    }, [percentage, taskDone])
+
     return (
         <TodayPageContainer>
-            <Top image={image}/>
+            <Top image={image} />
             <ContainerHeader>
-                <h1>Segunda, 17/05</h1>
-                <h2>Nenhum hábito concluído ainda</h2>
+                <h1>{date}</h1>
+                {taskDone.length === 0 ? <h2>Nenhum hábito concluído ainda</h2> : <h3>{percentage}% dos hábitos concluídos</h3>}
             </ContainerHeader>
-            <TodayTasks />
-            <Footer />
+
+            {todayList.map((item) =>
+                <TodayTask
+                    key={item.id}
+                    taskName={item.name}
+                    taskId={item.id}
+                    token={token}
+                    isDone={item.done}
+                    taskDone={taskDone}
+                    setTaskDone={setTaskDone}
+                    current={item.currentSequence}
+                    highest={item.highestSequence} />)}
+            <Footer percentage={percentage} />
         </TodayPageContainer>
     )
 }
@@ -42,6 +79,10 @@ const ContainerHeader = styled.div`
     }
     h2 {
         color: #BABABA;
+        font-size: 18px;
+    }
+    h3 {
+        color: #8FC549;
         font-size: 18px;
     }
 `

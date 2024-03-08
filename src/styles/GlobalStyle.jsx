@@ -48,6 +48,9 @@ table {
 *{
     box-sizing: border-box;
 }
+p{
+	font-family: Lexend Deca;
+}
  Link {
 	text-decoration: none;
  }

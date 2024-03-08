@@ -1,32 +1,23 @@
 import styled from "styled-components"
-import { useEffect } from "react";
-import axios from "axios";
-import Footer from "../../components/Footer";
 import HabitsContainer from "./HabitsContainer";
 import Top from "../../components/Top";
+import FooterTodayPage from "../TodayPage/FooterTodayPage";
 
-export default function HabitsPage({ token, image }) {
-    useEffect(() => {
-        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-
-        const promise = axios.get(URL, config)
-        promise.then((res) => {
-            console.log(res.data)
-        })
-        promise.catch((err) => console.log(err.response.data))
-    }, [])
+export default function HabitsPage(props) {
+    const { token, image, habitsList, setHabitsList, percentage, setPercentage, taskDone, setTaskDone } = props
 
     return (
         <HabitsPageContainer>
             <Top image={image} />
-            <HabitsContainer token={token} />
-            <Footer />
+            <HabitsContainer
+                token={token}
+                habitsList={habitsList}
+                setHabitsList={setHabitsList} 
+                taskDone={taskDone}
+                setPercentage={setPercentage}
+                setTaskDone={setTaskDone}/>
+            {/* <Footer percentage={percentage} /> */}
+            <FooterTodayPage percentage={percentage}/>
         </HabitsPageContainer>
     )
 }
