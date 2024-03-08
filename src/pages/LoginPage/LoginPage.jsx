@@ -19,7 +19,6 @@ export default function LoginPage({ setToken, setImage, setPercentage }) {
 
         const promise = axios.post(URL, form)
         promise.then((res) => {
-            console.log(res.data.image)
             setToken(res.data.token)
             setImage(res.data.image)
             navigate("/habits")

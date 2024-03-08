@@ -25,9 +25,6 @@ export default function WeekDiv({ setDays, days }) {
             <button type="button" onClick={() => addDay(4)}>Q</button>
             <button type="button" onClick={() => addDay(5)}>S</button>
             <button type="button" onClick={() => addDay(6)}>S</button>
-            {/* {daysList.map((item) => {
-                <button type="button" onClick={() => addDay()}>{item}</button>
-            })} */}
         </WeekDivContainer>
     )
 }

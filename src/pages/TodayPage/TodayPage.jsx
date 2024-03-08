@@ -8,7 +8,7 @@ import TodayTask from "./TodayTask"
 
 
 export default function TodayPage(props) {
-    const { token, image, habitsList, taskDone, setTaskDone, percentage, setPercentage, habitsToday, setHabitsToday } = props
+    const { token, image, taskDone, setTaskDone, percentage, setPercentage, habitsToday, setHabitsToday } = props
     const [todayList, setTodayList] = useState([])
     const date = (dayjs().format('dddd, DD/MM'))
     setPercentage(((taskDone.length / habitsToday.length) * 100).toFixed(0))
@@ -24,7 +24,12 @@ export default function TodayPage(props) {
 
         const promise = axios.get(URL, config)
         promise.then((res) => {
-            console.log(res.data);
+            // const newArray = res.data
+            // newArray.map((item) => {
+            //     if(item.done === true) {
+            //         setTaskDone([...taskDone, item.id])
+            //     } 
+            // })
             setTodayList(res.data)
             setHabitsToday(res.data)
         })
@@ -50,6 +55,7 @@ export default function TodayPage(props) {
                     setTaskDone={setTaskDone}
                     current={item.currentSequence}
                     highest={item.highestSequence} />)}
+
             <Footer percentage={percentage} />
         </TodayPageContainer>
     )

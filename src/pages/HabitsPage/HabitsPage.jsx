@@ -2,6 +2,7 @@ import styled from "styled-components"
 import HabitsContainer from "./HabitsContainer";
 import Top from "../../components/Top";
 import FooterTodayPage from "../TodayPage/FooterTodayPage";
+import Footer from "../../components/Footer";
 
 export default function HabitsPage(props) {
     const { token, image, habitsList, setHabitsList, percentage, setPercentage, taskDone, setTaskDone } = props
@@ -16,8 +17,7 @@ export default function HabitsPage(props) {
                 taskDone={taskDone}
                 setPercentage={setPercentage}
                 setTaskDone={setTaskDone}/>
-            {/* <Footer percentage={percentage} /> */}
-            <FooterTodayPage percentage={percentage}/>
+            <Footer percentage={percentage}/> 
         </HabitsPageContainer>
     )
 }

@@ -20,7 +20,6 @@ export default function RegisterPage() {
 
         const promise = axios.post(URL, body)
         promise.then((res) => {
-            console.log(res.data)
             navigate("/")
         })
         promise.catch((err) => alert(err.response.data.message))

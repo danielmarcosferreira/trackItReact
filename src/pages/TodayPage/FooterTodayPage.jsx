@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import 'react-circular-progressbar/dist/styles.css';
 
 
-export default function FooterTodayPage() {
+export default function FooterTodayPage({percentage}) {
     return (
         <FooterContainer>
             <StyledLink to={"/habits"}>

@@ -11,7 +11,7 @@ export default function HabitsContainer({ token, habitsList, setHabitsList, task
     const [selectedDays, setSelectedDays] = useState([])
 
     useEffect(() => {
-        setPercentage(((taskDone.length / habitsList.length) * 100).toFixed(0))
+        // setPercentage(((taskDone.length / habitsList.length) * 100).toFixed(0))
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
 
         const config = {
@@ -22,7 +22,6 @@ export default function HabitsContainer({ token, habitsList, setHabitsList, task
 
         const promise = axios.get(URL, config)
         promise.then((res) => {
-            console.log(res.data);
             setHabitsList(res.data)
         })
         promise.catch((err) => console.log(err.response.data))
@@ -38,7 +37,6 @@ export default function HabitsContainer({ token, habitsList, setHabitsList, task
         })
             .then(() => {
                 setToggleTasks(!toggleTasks)
-                console.log("OK!!!")
             })
             .catch((err) => console.log(err.response.data))
     }

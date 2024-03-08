@@ -29,7 +29,6 @@ export default function NewHabit({ token, selectedDays, toggleTasks ,setToggleTa
             setToggleTasks(!toggleTasks)
             setToggleAdd(!toggleAdd)
             setName("")
-            console.log(res.data);
         })
         promise.catch((err) => console.log(err.response.data))
     }

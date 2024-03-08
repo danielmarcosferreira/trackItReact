@@ -34,7 +34,6 @@ export default function TodayTask(props) {
             })
             promise.catch((err) => console.log(err.response.data.message))
         }
-        console.log(taskDone);
     }
 
     return (
