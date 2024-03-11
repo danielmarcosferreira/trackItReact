@@ -1,13 +1,16 @@
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import axios from "axios"
 import logo from "../../assets/images/logo.png"
+import gif from "../../assets/images/loading.gif"
+import { AuthContext } from "../../context/AuthProvider"
 
-export default function LoginPage({ setToken, setImage, setPercentage }) {
+export default function LoginPage() {
     const [form, setForm] = useState({ email: "", password: "" })
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
-    setPercentage("")
+    const  {setToken, setImage} = useContext(AuthContext)
 
     function handleForm(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -18,12 +21,17 @@ export default function LoginPage({ setToken, setImage, setPercentage }) {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
 
         const promise = axios.post(URL, form)
+        setLoading(true)
         promise.then((res) => {
             setToken(res.data.token)
             setImage(res.data.image)
+            setLoading(false)
             navigate("/habits")
         })
-        promise.catch((err) => alert(err.response.data.message))
+        promise.catch((err) => {
+            setLoading(false)
+            alert("Email ou senha inválidos")
+        })
     }
 
     return (
@@ -31,9 +39,26 @@ export default function LoginPage({ setToken, setImage, setPercentage }) {
             <img src={logo} alt="logo TrackIt" />
 
             <Form onSubmit={login}>
-                <input placeholder="email" name="email" onChange={handleForm} value={form.email} type="email" required />
-                <input placeholder="senha" name="password" onChange={handleForm} value={form.password} type="password" required />
-                <button type="submit">Entrar</button>
+                <input
+                    placeholder="email"
+                    name="email"
+                    onChange={handleForm}
+                    value={form.email}
+                    type="email"
+                    disabled={loading}
+                    required />
+                <input
+                    placeholder="senha"
+                    name="password"
+                    onChange={handleForm}
+                    value={form.password}
+                    type="password"
+                    disabled={loading}
+                    required />
+
+                <button type="submit">
+                    {loading === false ? "Enter" : <img src={gif} />}
+                </button>
             </Form>
 
             <Link to={"/register"}>
@@ -89,5 +114,10 @@ const Form = styled.form`
         border-radius: 5px;
         margin: 5px 0;
         font-size: 25px;
+
+        img {
+            width: 50px;
+            height: 45px;
+        }
     }
 `

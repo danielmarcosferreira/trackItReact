@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useStat, useContext } from 'react'
 import styled from "styled-components"
 import axios from "axios"
 import done from "../../assets/images/done.png"
+import { AuthContext } from '../../context/AuthProvider'
 
 
 export default function TodayTask(props) {
-    const { taskName, taskId, isDone, token, taskDone, setTaskDone, current, highest } = props
-
+    const { taskName, taskId, isDone, current, highest, task } = props
+    const { taskDone, setTaskDone, token } = useContext(AuthContext)
     function doneTask(taskId) {
         if (!isDone) {
             const config = {
@@ -20,7 +21,7 @@ export default function TodayTask(props) {
                 setTaskDone([...taskDone, taskId])
             })
             promise.catch((err) => console.log(err.response.data.message))
-        } else {      
+        } else {
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -37,14 +38,13 @@ export default function TodayTask(props) {
     }
 
     return (
-        <TodayTaskContainer>
+        <TodayTaskContainer highest={highest} current={current}>
             <div>
                 <h3>{taskName}</h3>
-                <p>Sequência atual: {current} dias</p>
-                <p>Seu recorde: {highest} dias</p>
+                <p>Sequência atual: <span>{current} dias</span></p>
+                <p>Seu recorde: <span>{highest} dias</span></p>
             </div>
             <ImageDone onClick={() => doneTask(taskId)} selected={isDone}>
-                {/* {selected={taskDone.includes(taskId) ? true : false}} */}
                 <img src={done} />
             </ImageDone>
         </TodayTaskContainer>
@@ -69,6 +69,9 @@ const TodayTaskContainer = styled.div`
     }
     p {
         font-size: 13px;
+    }
+    span {
+        color: ${props => props.current > 0 ? "green" : "black" };
     }
 `
 

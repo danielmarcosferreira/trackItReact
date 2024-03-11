@@ -1,17 +1,19 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styled from "styled-components"
 import Top from '../../components/Top'
 import Footer from '../../components/Footer'
+import { AuthContext } from '../../context/AuthProvider'
 
-export default function HistoricPage({image, percentage}) {
+export default function HistoricPage() {
+    const {percentage} = useContext(AuthContext)
     return (
         <TodayPageContainer>
-            <Top image={image}/>
+            <Top/>
             <ContainerHeader>
                 <h1>Histórico</h1>
                 <h2>Em breve você poderá ver o histórico dos seus hábitos aqui!</h2>
             </ContainerHeader>
-            <Footer percentage={percentage}/>
+            <Footer/>
         </TodayPageContainer>
     )
 }

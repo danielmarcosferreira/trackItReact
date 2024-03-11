@@ -1,16 +1,17 @@
 import styled from "styled-components"
 import dayjs from 'dayjs'
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import axios from "axios"
 import Top from '../../components/Top'
 import Footer from "../../components/Footer"
 import TodayTask from "./TodayTask"
+import { AuthContext } from "../../context/AuthProvider"
 
 
-export default function TodayPage(props) {
-    const { token, image, taskDone, setTaskDone, percentage, setPercentage, habitsToday, setHabitsToday } = props
+export default function TodayPage() {
     const [todayList, setTodayList] = useState([])
     const date = (dayjs().format('dddd, DD/MM'))
+    const { token, setTaskDone, taskDone, percentage, setPercentage, habitsToday, setHabitsToday, habitsList, toggleTasks } = useContext(AuthContext)
     setPercentage(((taskDone.length / habitsToday.length) * 100).toFixed(0))
 
     useEffect(() => {
@@ -24,21 +25,17 @@ export default function TodayPage(props) {
 
         const promise = axios.get(URL, config)
         promise.then((res) => {
-            // const newArray = res.data
-            // newArray.map((item) => {
-            //     if(item.done === true) {
-            //         setTaskDone([...taskDone, item.id])
-            //     } 
-            // })
             setTodayList(res.data)
             setHabitsToday(res.data)
+            const tasksDone = res.data.filter((item) => item.done === true)
+            setTaskDone(tasksDone);
         })
         promise.catch((err) => console.log(err.response.data))
     }, [percentage, taskDone])
 
     return (
         <TodayPageContainer>
-            <Top image={image} />
+            <Top />
             <ContainerHeader>
                 <h1>{date}</h1>
                 {taskDone.length === 0 ? <h2>Nenhum hábito concluído ainda</h2> : <h3>{percentage}% dos hábitos concluídos</h3>}
@@ -50,13 +47,11 @@ export default function TodayPage(props) {
                     taskName={item.name}
                     taskId={item.id}
                     token={token}
+                    task={item}
                     isDone={item.done}
-                    taskDone={taskDone}
-                    setTaskDone={setTaskDone}
                     current={item.currentSequence}
                     highest={item.highestSequence} />)}
-
-            <Footer percentage={percentage} />
+            <Footer />
         </TodayPageContainer>
     )
 }

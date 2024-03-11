@@ -1,16 +1,21 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import axios from "axios"
 import WeekDiv from "./WeekDiv"
+import gif from "../../assets/images/loading.gif"
+import { AuthContext } from "../../context/AuthProvider"
 
-export default function NewHabit({ token, selectedDays, toggleTasks ,setToggleTasks, toggleAdd ,setToggleAdd }) {
+export default function NewHabit(props) {
+    const { selectedDays, toggleTasks, setToggleTasks, toggleAdd, setToggleAdd } = props
     const [name, setName] = useState("")
     const [days, setDays] = useState([])
+    const [loading, setLoading] = useState(false)
+    const {token} = useContext(AuthContext)
 
     function addHabit(e) {
         e.preventDefault()
         setDays(selectedDays)
-        
+
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
 
         const config = {
@@ -25,12 +30,21 @@ export default function NewHabit({ token, selectedDays, toggleTasks ,setToggleTa
         }
 
         const promise = axios.post(URL, body, config)
+        setLoading(true)
         promise.then((res) => {
+            setLoading(false)
             setToggleTasks(!toggleTasks)
             setToggleAdd(!toggleAdd)
             setName("")
         })
-        promise.catch((err) => console.log(err.response.data))
+        promise.catch((err) => {
+            setLoading(false)
+            console.log(err.response.data)
+        })
+    }
+
+    function toggleNewHabit () {
+        setToggleAdd(!toggleAdd)
     }
 
     return (
@@ -41,13 +55,14 @@ export default function NewHabit({ token, selectedDays, toggleTasks ,setToggleTa
                     name="name"
                     type="text"
                     onChange={(e) => setName(e.target.value)}
-                    value={name} />
+                    value={name} 
+                    disabled={loading}/>
 
-                <WeekDiv setDays={setDays} days={days}/>
+                <WeekDiv setDays={setDays} days={days} />
             </div>
             <AddCancelButtons>
-                <button>Cancelar</button>
-                <button type="submit">Salvar</button>
+                <button type="button" onClick={toggleNewHabit}>Cancelar</button>
+                <button type="submit">{loading ? <img src={gif} /> : "Salvar"}</button>
             </AddCancelButtons>
         </NewHabitContainer>
     )
@@ -98,6 +113,10 @@ const AddCancelButtons = styled.div`
         &:nth-child(2) {
             background-color: #52B6FF;
             color: #FFFFFF;
+        }
+        img {
+            width: 45px;
+            height: 35px;
         }
     }
 `

@@ -1,17 +1,18 @@
 import styled from "styled-components"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import axios from "axios"
 import NewHabit from "./NewHabit"
 import HabitsList from "./HabitsList"
+import { AuthContext } from "../../context/AuthProvider"
 
 
-export default function HabitsContainer({ token, habitsList, setHabitsList, taskDone, setPercentage }) {
+export default function HabitsContainer() {
     const [toggleAdd, setToggleAdd] = useState(false)
     const [toggleTasks, setToggleTasks] = useState(false)
     const [selectedDays, setSelectedDays] = useState([])
+    const { token, habitsList, setHabitsList, taskDone, setPercentage, habitsToday } = useContext(AuthContext)
 
     useEffect(() => {
-        // setPercentage(((taskDone.length / habitsList.length) * 100).toFixed(0))
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
 
         const config = {
@@ -23,6 +24,7 @@ export default function HabitsContainer({ token, habitsList, setHabitsList, task
         const promise = axios.get(URL, config)
         promise.then((res) => {
             setHabitsList(res.data)
+            setPercentage(((taskDone.length / habitsToday.length) * 100).toFixed(0))
         })
         promise.catch((err) => console.log(err.response.data))
     }, [toggleTasks])

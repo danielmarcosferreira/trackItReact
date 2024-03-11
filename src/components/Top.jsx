@@ -1,7 +1,10 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthProvider"
 
-export default function Top({ image }) {
+export default function Top() {
+    const {image} = useContext(AuthContext)
     return (
         <TopContainer>
             <StyledLink to={"/"}>

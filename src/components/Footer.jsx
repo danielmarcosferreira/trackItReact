@@ -1,10 +1,13 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar"
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 import 'react-circular-progressbar/dist/styles.css';
 
 
-export default function Footer({percentage}) {
+export default function Footer() {
+    const {percentage} = useContext(AuthContext)
     return (
         <FooterContainer>
             <StyledLink to={"/habits"}>
